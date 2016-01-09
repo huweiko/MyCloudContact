@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+	<include layout="@layout/include_fragment_navigation_bar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+ 		<RelativeLayout
+            style="@style/InputParentTheme"
+            android:layout_width="match_parent" 
+            android:focusable="true"   
+			android:focusableInTouchMode="true"
+			android:layout_weight="1" >
+	        <EditText
+	            android:id="@+id/EditTextFunsNum"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical"
+	            
+	            android:ems="10"
+	            android:hint="提交粉丝数"
+	            style="@style/EtTheme"
+	            android:inputType="number" >
+	        </EditText>
+		</RelativeLayout>
+        <Button
+            android:id="@+id/ButtonSubmitFuns"
+            android:layout_width="160dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/bg_round_corner"
+        	android:textColor="@color/white"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:onClick="OnClickSubmitFuns"
+            android:text="提交" />
+
+    </LinearLayout>
+
+	<ListView 
+	    android:id="@+id/ListViewFriend"
+	    android:layout_width="fill_parent"
+    	android:layout_height="fill_parent">
+	</ListView>
+</LinearLayout>

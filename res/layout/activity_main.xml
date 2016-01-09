@@ -1,0 +1,107 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    style="@style/ContentBgTheme">
+
+    <LinearLayout
+        android:id="@+id/LinearLayout01"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:orientation="vertical" 
+        android:background="#12a867">
+    
+		<RelativeLayout 
+		    android:id="@+id/RelativeLayout01"
+		    android:layout_width="140dp"
+	        android:layout_height="140dp"
+	        android:layout_gravity="center"
+	        android:layout_marginTop="40dp"
+	        android:background="@drawable/brand_photo_bigframe">
+	
+			<ImageView
+			    android:id="@+id/ImageViewContract"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_centerHorizontal="true"
+			    android:layout_marginTop="30dp"
+			    android:background="@drawable/pic_contacts" />
+			<TextView 
+			    android:id="@+id/TextViewContractNum"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_centerHorizontal="true"
+			    android:layout_marginTop="20dp"
+			    android:layout_below="@+id/ImageViewContract"
+			    android:text="300人"
+			    android:textSize="20sp"/>
+		
+		</RelativeLayout>
+		<TextView 
+			    android:id="@+id/TextViewServerStatus"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_horizontal"
+			    android:layout_marginTop="5dp"
+			    android:text="连接服务器成功"
+			    android:textSize="17sp"/>
+		<TextView 
+			    android:id="@+id/TextViewZuijinGenXin"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_horizontal"
+			    android:layout_marginTop="5dp"
+			    android:text="最近已更新300条通讯录"
+			    android:textSize="17sp"/>
+	</LinearLayout>
+
+    <Button 
+        android:id="@+id/btnImport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        style="@style/BtnCommitTheme"
+        android:text="一键下载"/>
+    <TextView 
+	    android:id="@+id/TextViewTotalNum"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center_horizontal"
+	    android:layout_marginTop="5dp"
+	    android:text="通讯录现在已有1200人"
+	    android:textSize="17sp"/>
+
+    <ListView
+        android:id="@+id/ListViewLog"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="visible" >
+        
+    </ListView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal" >
+
+        <Button
+            style="@style/btnFogetPwdTheme"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="电话薄" />
+
+        <Button
+            android:id="@+id/ButtonFrind"
+            style="@style/btnFogetPwdTheme"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="朋友圈" />
+    </LinearLayout>
+
+</LinearLayout>

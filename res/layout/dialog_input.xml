@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dp_20"
+    android:orientation="vertical"
+    android:background="@drawable/table_bg">
+	<RelativeLayout
+	    style="@style/InputParentTheme"
+	    android:layout_width="match_parent" 
+	    android:focusable="true"   
+		android:focusableInTouchMode="true">
+      	<EditText
+          android:id="@+id/etRegUser"
+          style="@style/EtTheme"
+          android:hint="用户名"
+          android:inputType="text" >
+      	</EditText>
+     </RelativeLayout>
+     <include layout="@layout/include_split" /> 
+     <RelativeLayout
+         style="@style/InputParentTheme"
+         android:layout_width="match_parent" >
+	    <EditText
+	        android:id="@+id/etRegPwd"
+	        style="@style/EtTheme"
+	        android:hint="密码"
+	        android:inputType="textPassword" />
+     </RelativeLayout>
+     <include layout="@layout/include_split" /> 
+     <RelativeLayout
+         style="@style/InputParentTheme"
+         android:layout_width="match_parent" >
+	    <EditText
+	        android:id="@+id/etUserNum"
+	        style="@style/EtTheme"
+	        android:hint="用户编号"
+	        android:inputType="text" />
+     </RelativeLayout>
+    <Button
+        android:id="@+id/btnRegModify"
+        style="@style/BtnCommitTheme"
+        android:layout_gravity="center_horizontal"
+        android:text="注册"/>
+</LinearLayout>
+

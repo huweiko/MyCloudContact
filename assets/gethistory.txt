@@ -1,0 +1,1 @@
+{"respCode":"E00","respMsg":"历史记录获取成功","data":[{"addfans":100,"currtime":"2015-05-11"},{"addfans":20,"currtime":"2015-05-11"},{"addfans":50,"currtime":"2015-05-10"}]}

@@ -1,0 +1,1 @@
+{"respCode":"E00","respMsg":"登录成功","data":[{"userid":"50D7DD25323FA7EF","usernum":"zhangsan","currnum":0,"storynum":0,"totalnum":0}]}
