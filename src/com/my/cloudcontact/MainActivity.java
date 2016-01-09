@@ -13,6 +13,8 @@ import com.my.cloudcontact.bean.AccountInfo;
 import com.my.cloudcontact.bean.Response;
 import com.my.cloudcontact.bean.Urls;
 import com.my.cloudcontact.bean.UserDownloadHistory;
+import com.my.cloudcontact.bean.UserInfo;
+import com.my.cloudcontact.bean.Constant.Preference;
 import com.my.cloudcontact.http.AjaxCallBack;
 import com.my.cloudcontact.http.AjaxParams;
 import com.my.cloudcontact.util.TostHelper;
@@ -32,6 +34,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity  extends BaseActivity {
 	Button mButtonFrind;
@@ -47,11 +50,16 @@ public class MainActivity  extends BaseActivity {
 	private final int UPDATE_DIAL = 100;
 	public static final int have_net = 101;
 	public static  final int no_net = 102;
+	public static  final int update_ui = 103;
+	
 	private ArrayAdapter<String> historyAdapter;
+	String uname, pwd;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		uname = preferences.getString(Preference.UNAME, null);
+		pwd = preferences.getString(Preference.PWD, null);
 		this.context = this;
 		mButtonFrind = (Button) findViewById(R.id.ButtonFrind);
 		mBtnImport = (Button) findViewById(R.id.btnImport);
@@ -75,21 +83,17 @@ public class MainActivity  extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				ContactsUtils.deleteAllPhone(context, 1);
-				ContactsUtils.deleteAllPhone(context, 0);
 				importContact();
 			}
 		});
-		getHistory();
-		updateUI();
+		
 		NetCheckThread mNetCheckThread = new NetCheckThread(context,mHandler, Urls.IP);
 		mNetCheckThread.start();
 		
 	}
 	void updateUI(){
-		mTextViewContractNum.setText(LoginActivity.mUserInfo.getCurrnum()+"人");
-		mTextViewZuijinGenXin.setText("最近已更新"+LoginActivity.mUserInfo.getStorynum()+"条通讯录");
-		mTextViewTotalNum.setText("通讯录现在已有"+LoginActivity.mUserInfo.getTotalnum()+"人");
+		login(uname, pwd);
+		getHistory();
 	}
 	/* 获取历史记录接口
 	 * 
@@ -120,7 +124,7 @@ public class MainActivity  extends BaseActivity {
 						historyAdapter.clear();
 						for(int i = 0;i<mListUserDownloadHistory.size();i++){
 							
-							historyAdapter.add(mListUserDownloadHistory.get(i).getCurrtime()+"增加了"+mListUserDownloadHistory.get(i).getAddfans()+"个粉丝");
+							historyAdapter.add(mListUserDownloadHistory.get(i).getCurrtime()+" 增加了"+mListUserDownloadHistory.get(i).getAddfans()+"个粉丝");
 						}
 						historyAdapter.notifyDataSetChanged();
 					}
@@ -199,8 +203,12 @@ public class MainActivity  extends BaseActivity {
 						new TypeToken<Response<ArrayList<ContactsInfo>>>(){}.getType());
 					List<ContactsInfo> data;
 					if(response.getResult()){
+						
 						data = response.getResponse();
-					
+						if(data.size()>0){
+							ContactsUtils.deleteAllPhone(context, 1);
+							ContactsUtils.deleteAllPhone(context, 0);
+						}
 					Log.i("--tom", "ready import contacts -->" + params[0] );
 					Log.i("--tom", "ready import contacts size()-->" + data.size() );
 
@@ -217,7 +225,7 @@ public class MainActivity  extends BaseActivity {
 							for(int j = i; j < i+500 && j < data.size(); j++){
 								list.add(data.get(j));
 							}
-							List<ContactsInfo> list2 = ContactsUtils.addContacts(list, getActivity(), i);
+							ContactsUtils.addContacts(list, getActivity(), i);
 							list.clear();
 							Message msg = mHandler.obtainMessage();
 							msg.what = UPDATE_DIAL;
@@ -226,6 +234,7 @@ public class MainActivity  extends BaseActivity {
 							msg.obj = progress;
 							mHandler.sendMessage(msg);
 						}
+						updateUI();
 					}else{
 						TostHelper.ToastLg(response.getMessage(), getActivity());
 					}
@@ -243,6 +252,12 @@ public class MainActivity  extends BaseActivity {
 				dialog.cancel();
 			}
 		}
+	}
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		updateUI();
 	}
 	@SuppressLint("HandlerLeak")
 	Handler mHandler = new Handler(){
@@ -262,10 +277,53 @@ public class MainActivity  extends BaseActivity {
 			case no_net:
 				mTextViewServerStatus.setText("连接服务器失败");
 				break;
+			case update_ui:
+				mTextViewContractNum.setText(LoginActivity.mUserInfo.getCurrnum()+"人");
+				mTextViewZuijinGenXin.setText("最近已更新"+LoginActivity.mUserInfo.getStorynum()+"条通讯录");
+				mTextViewTotalNum.setText("通讯录现在已有"+LoginActivity.mUserInfo.getTotalnum()+"人");
+				break;
 			default:
 				break;
 			}
 		}
 		
 	};
+	
+	 /* 登录接口
+	  * */
+	private void login(String userName, String pwd) {
+		AjaxParams param = new AjaxParams();
+		param.put("buss", "login");
+		param.put("username", userName);
+		param.put("password", pwd);
+		getFinalHttp().get(Urls.SERVER_IP,param, new AjaxCallBack<String>() {
+
+			@Override
+			public void onSuccess(String t) {
+				super.onSuccess(t);
+				parseData(t);
+			}
+
+			private void parseData(String t) {
+				Response<List<UserInfo>> response = new Gson().fromJson(t, 
+						new TypeToken<Response<List<UserInfo>>>(){}.getType());
+				
+				if(response.getResult()){
+					List<UserInfo> listUserInfo = response.getResponse();
+					LoginActivity.mUserInfo = listUserInfo.get(0);
+					mHandler.sendEmptyMessage(update_ui);
+				}else{
+					TostHelper.ToastLg(response.getMessage(), getActivity());
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable t, int errorNo,
+					String strMsg) {
+				super.onFailure(t, errorNo, strMsg);
+				Toast.makeText(MainActivity.this, strMsg, Toast.LENGTH_SHORT).show();
+			}
+			
+		});
+	}
 }
