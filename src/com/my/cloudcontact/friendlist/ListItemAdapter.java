@@ -20,6 +20,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
@@ -139,6 +142,21 @@ public class ListItemAdapter extends BaseAdapter {
 					});
 				}
 				TostHelper.ToastSht("保存图片到DCIM文件夹中", v.getContext());
+				  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+					  MediaScannerConnection.scanFile(mContext, new String[]{Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getPath() + "/"}, null, null);
+					/*  Intent mediaScanIntent = new Intent(
+	                            Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+	                    Uri contentUri = Uri.fromFile(out); \\out is your output file
+	                    mediaScanIntent.setData(contentUri);
+	                    this.sendBroadcast(mediaScanIntent); */
+				  } else {
+	                	mContext.sendBroadcast(new Intent(
+	                            Intent.ACTION_MEDIA_MOUNTED,
+	                            Uri.parse("file://"
+	                                    + Environment.getExternalStorageDirectory())));
+	                }
+//				mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,Uri.parse("file://" + Environment.getExternalStorageDirectory())));  
+//				MediaScannerConnection.scanFile(mContext, new String[]{Environment.getExternalStorageDirectory()+""}, null, null);
 			}
 		});
 		return convertView;

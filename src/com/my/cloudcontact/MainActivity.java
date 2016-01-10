@@ -93,7 +93,6 @@ public class MainActivity  extends BaseActivity {
 	}
 	void updateUI(){
 		login(uname, pwd);
-		getHistory();
 	}
 	/* 获取历史记录接口
 	 * 
@@ -278,6 +277,7 @@ public class MainActivity  extends BaseActivity {
 				mTextViewServerStatus.setText("连接服务器失败");
 				break;
 			case update_ui:
+				getHistory();
 				mTextViewContractNum.setText(LoginActivity.mUserInfo.getCurrnum()+"人");
 				mTextViewZuijinGenXin.setText("最近已更新"+LoginActivity.mUserInfo.getStorynum()+"条通讯录");
 				mTextViewTotalNum.setText("通讯录现在已有"+LoginActivity.mUserInfo.getTotalnum()+"人");
