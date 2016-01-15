@@ -35,7 +35,17 @@
 	    <EditText
 	        android:id="@+id/etUserNum"
 	        style="@style/EtTheme"
-	        android:hint="用户编号"
+	        android:hint="管理人"
+	        android:inputType="text" />
+     </RelativeLayout>
+     <include layout="@layout/include_split" /> 
+     <RelativeLayout
+         style="@style/InputParentTheme"
+         android:layout_width="match_parent" >
+	    <EditText
+	        android:id="@+id/etDeviceNum"
+	        style="@style/EtTheme"
+	        android:hint="设备编号"
 	        android:inputType="text" />
      </RelativeLayout>
     <Button

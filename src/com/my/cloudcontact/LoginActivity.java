@@ -31,7 +31,7 @@ public class LoginActivity extends BaseActivity {
 
 	EditText etUserName, etPwd;
 	Button btnSubmit;
-	public static UserInfo mUserInfo;
+	public static UserInfo mUserInfo = new UserInfo();
 	private Context context;
 	String uname, pwd;
 	@Override
@@ -69,8 +69,8 @@ public class LoginActivity extends BaseActivity {
                 dialog.getText2().setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 dialog.setConfirmListener(new InputDialog.InputDialogInterface() {
                     @Override
-                    public void onBtnClick(String et1, String et2, String etUsernum) {
-                        register(et1, et2, etUsernum,"0");
+                    public void onBtnClick(String et1, String et2, String etUsernum,String mDeviceNum) {
+                        register(et1, et2, etUsernum,mDeviceNum,"0");
                        /* String t = AssetUtils.getDataFromAssets(context, "reg.txt");
     					parseData(t);*/
                         dialog.dismiss();
@@ -105,7 +105,7 @@ public class LoginActivity extends BaseActivity {
 	}
 	/* 注册接口
 	 * */
-	 private void register(final String user, final String pwd,final String usernum,final String gjz) {
+	 private void register(final String user, final String pwd,final String usernum,final String gjz, final String deviceNum) {
 
 	        // 登陆
 	        if(TextUtils.isEmpty(user) || TextUtils.isEmpty(pwd)){
@@ -118,6 +118,8 @@ public class LoginActivity extends BaseActivity {
 			param.put("password", pwd);
 			param.put("usernum", usernum);
 			param.put("gjz", gjz);
+			param.put("devicenum", deviceNum);
+			
 			final ProgressDialog dialog = new ProgressDialog(this);
 			dialog.setMessage("注册中...");
 			dialog.show();
@@ -148,7 +150,7 @@ public class LoginActivity extends BaseActivity {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
 									
-								register(user, pwd, usernum, "1");
+								register(user, pwd, usernum, "1",deviceNum);
 								dialog.dismiss();
 							}
 						});
