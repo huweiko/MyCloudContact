@@ -2,11 +2,13 @@ package com.my.cloudcontact;
 
 import android.app.Application;
 
+import com.my.cloudcontact.bean.Constant;
 import com.my.cloudcontact.http.FinalHttp;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.pgyersdk.crash.PgyCrashManager;
+import com.pgyersdk.update.PgyUpdateManager;
 
 public class MyCloudContactApplication extends Application {
 	private FinalHttp mFinalHttp;
@@ -32,7 +34,7 @@ public class MyCloudContactApplication extends Application {
 			.writeDebugLogs()//
 			.build();//
 		ImageLoader.getInstance().init(config);
-		PgyCrashManager.register(this,"70eb1fa8158a4bb188be2264418339cc");// 集成蒲公英sdk应用的appId
+		PgyCrashManager.register(this,Constant.PgyerAPPID);// 集成蒲公英sdk应用的appId
 		// mFinalHttp.setReqeustHeader(new BaseReqeustHeader(instance));
 		// mFinalHttp.setCheckResponseInterface(new BaseCheckResponse());
 	}

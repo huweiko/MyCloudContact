@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.my.cloudcontact.bean.Constant;
 import com.my.cloudcontact.bean.Constant.Preference;
 import com.my.cloudcontact.bean.Response;
 import com.my.cloudcontact.bean.Urls;
@@ -26,6 +27,7 @@ import com.my.cloudcontact.http.AjaxParams;
 import com.my.cloudcontact.util.AssetUtils;
 import com.my.cloudcontact.util.NetworkUtils;
 import com.my.cloudcontact.util.TostHelper;
+import com.pgyersdk.update.PgyUpdateManager;
 
 public class LoginActivity extends BaseActivity {
 
@@ -37,6 +39,7 @@ public class LoginActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		PgyUpdateManager.register(this,Constant.PgyerAPPID);
 		setContentView(R.layout.activity_login);
 		this.context = this;
 		initView();

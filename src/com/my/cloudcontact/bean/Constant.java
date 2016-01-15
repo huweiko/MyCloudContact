@@ -2,7 +2,6 @@ package com.my.cloudcontact.bean;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v4.app.FragmentActivity;
 
 public class Constant {
 
@@ -16,6 +15,5 @@ public class Constant {
 			return context.getSharedPreferences("CloudContactSharePref", Context.MODE_PRIVATE);
 		}
 	}
-	public static final String PgyerAPPID="3a05e1af690dbc648dd964b293ddc7a2";// 集成蒲公英sdk应用的appId
-
+	public static final String PgyerAPPID="70eb1fa8158a4bb188be2264418339cc";// 集成蒲公英sdk应用的appId
 }
