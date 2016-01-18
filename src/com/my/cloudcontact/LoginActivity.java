@@ -108,7 +108,7 @@ public class LoginActivity extends BaseActivity {
 	}
 	/* 注册接口
 	 * */
-	 private void register(final String user, final String pwd,final String usernum,final String gjz, final String deviceNum) {
+	 private void register(final String user, final String pwd,final String usernum, final String deviceNum, final String gjz) {
 
 	        // 登陆
 	        if(TextUtils.isEmpty(user) || TextUtils.isEmpty(pwd)){
@@ -153,7 +153,7 @@ public class LoginActivity extends BaseActivity {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
 									
-								register(user, pwd, usernum, "1",deviceNum);
+								register(user, pwd, usernum,deviceNum, "1");
 								dialog.dismiss();
 							}
 						});

@@ -99,7 +99,7 @@ public class MainActivity  extends BaseActivity {
 	 * */
 	protected void getHistory(){
 		 // 请求联系人数据
-		dialog = new ProgressDialog(this);
+		dialog = new ProgressDialog(context);
 		dialog.setMessage("获取下载历史...");
 		dialog.show();
 		AjaxParams param = new AjaxParams();
