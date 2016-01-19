@@ -41,7 +41,7 @@ import android.widget.AdapterView.OnItemClickListener;
  * 
  */
 public class ListItemAdapter extends BaseAdapter {
-
+	public static String picDir = Environment.getExternalStorageDirectory()+"/DCIM/";
 	private Context mContext;
 	private ArrayList<ItemEntity> items;
 
@@ -169,10 +169,11 @@ public class ListItemAdapter extends BaseAdapter {
 		// 得到剪贴板管理器  
 		ClipboardManager cmb = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);  
 		cmb.setText(content.trim());  
-	}  
+	}
+	
 	public void saveBitmap(Bitmap bm,String filename) { 
 		Log.e(getClass().getSimpleName(), "保存图片"); 
-		File fd = new File(Environment.getExternalStorageDirectory()+"/DCIM/");
+		File fd = new File(picDir);
 		if(!fd.exists()){
 			fd.mkdirs();
 		}
