@@ -132,6 +132,7 @@ public class ListItemAdapter extends BaseAdapter {
 						public void onLoadingComplete(String arg0, View arg1, Bitmap arg2) {
 							// TODO Auto-generated method stub
 							saveBitmap(arg2,arg0.replace("/", "_"));
+							
 						}
 						
 						@Override
@@ -141,26 +142,23 @@ public class ListItemAdapter extends BaseAdapter {
 						}
 					});
 				}
+				
 				TostHelper.ToastSht("保存图片到DCIM文件夹中", v.getContext());
-				  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-					  MediaScannerConnection.scanFile(mContext, new String[]{Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getPath() + "/"}, null, null);
-					/*  Intent mediaScanIntent = new Intent(
-	                            Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-	                    Uri contentUri = Uri.fromFile(out); \\out is your output file
-	                    mediaScanIntent.setData(contentUri);
-	                    this.sendBroadcast(mediaScanIntent); */
-				  } else {
-	                	mContext.sendBroadcast(new Intent(
-	                            Intent.ACTION_MEDIA_MOUNTED,
-	                            Uri.parse("file://"
-	                                    + Environment.getExternalStorageDirectory())));
-	                }
-//				mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,Uri.parse("file://" + Environment.getExternalStorageDirectory())));  
-//				MediaScannerConnection.scanFile(mContext, new String[]{Environment.getExternalStorageDirectory()+""}, null, null);
 			}
 		});
 		return convertView;
 	}
+	/**
+     * 让Gallery上能马上看到该图片
+     */
+    private static void scanPhoto(Context ctx, String imgFileName) {
+        Intent mediaScanIntent = new Intent(
+                Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File file = new File(imgFileName);
+        Uri contentUri = Uri.fromFile(file);
+        mediaScanIntent.setData(contentUri);
+        ctx.sendBroadcast(mediaScanIntent);
+    }
 	/** 
 	* 实现文本复制功能 
 	* add by wangqianzhou 
@@ -174,15 +172,20 @@ public class ListItemAdapter extends BaseAdapter {
 	}  
 	public void saveBitmap(Bitmap bm,String filename) { 
 		Log.e(getClass().getSimpleName(), "保存图片"); 
-		File f = new File(Environment.getExternalStorageDirectory()+"/DCIM/",filename); 
+		File fd = new File(Environment.getExternalStorageDirectory()+"/DCIM/");
+		if(!fd.exists()){
+			fd.mkdirs();
+		}
+		File f = new File(fd, filename);
 		if (f.exists()) { 
-		f.delete(); 
+			f.delete(); 
 		} 
 		try { 
 			FileOutputStream out = new FileOutputStream(f); 
 			bm.compress(Bitmap.CompressFormat.PNG, 90, out); 
 			out.flush(); 
 			out.close(); 
+			scanPhoto(mContext, f.getAbsolutePath());
 			Log.i(getClass().getSimpleName(), "已经保存"); 
 		} catch (FileNotFoundException e) { 
 			// TODO Auto-generated catch block 
